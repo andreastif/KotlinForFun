@@ -263,8 +263,8 @@ fun main() {
     //Övningsuppgift 4-c
     val mySet = mutableSetOf(myTurtle, myTurtle, mySnail, mySnail, myMonkey, myMonkey)
     val mySet2 = mutableSetOf(myMonkey, myTurtle, mySnail)
-    mySet.forEach{e -> println("set1:$e")}
-    mySet2.forEach{e -> println("set2:$e")}
+    mySet.forEach { e -> println("set1:$e") }
+    mySet2.forEach { e -> println("set2:$e") }
     println(mySet == mySet2) //true
 
     //Övningsuppgift 4-d
@@ -273,7 +273,7 @@ fun main() {
 //    • Låt själva djurobjektet vara värdet i mappen
 //    • Skriv ut alla djur i din mapp
     val myMap = mutableMapOf("Ahmed" to myMonkey, "Lisa" to mySnail, "Giorgios" to myTurtle)
-    myMap.forEach{e-> println(e)}
+    myMap.forEach { e -> println(e) }
 
     //Övningsuppgift 4-e
     println("skriv turtle snail eller monkey")
@@ -287,11 +287,14 @@ fun main() {
     data class Rectangle(val width: Int, val height: Int)
 
     //två olika sätt att skriva extension functions på
-    fun Rectangle.Area(): Int {return this.width * this.height}
-    fun Rectangle.Circumference(): Int = (this.width*2) + (this.height*2)
+    fun Rectangle.Area(): Int {
+        return this.width * this.height
+    }
 
-    val myRec1 = Rectangle(55,11)
-    val myRec2 = Rectangle(55,11)
+    fun Rectangle.Circumference(): Int = (this.width * 2) + (this.height * 2)
+
+    val myRec1 = Rectangle(55, 11)
+    val myRec2 = Rectangle(55, 11)
 
     //användning av extension function
     println(myRec1.Area())
@@ -305,36 +308,59 @@ fun main() {
     "hej".DoubleUp()
 
     //Övningsuppgift 5-c
-    fun String.printRepeat(index: Int) =  repeat(index) {println("$this")}
+    fun String.printRepeat(index: Int) = repeat(index) { println("$this") }
     "hej".printRepeat(5)
 
     //Övningsuppgift 6-a
     //olika sätt att skriva en lambda på
-    myMap.forEach{e-> println(e)}
-    myMap.forEach{println({"${it.value}"})}
-    myMap.forEach({e-> println(e.value)})
-    myMap.forEach{e-> println(e)}
+    myMap.forEach { e -> println(e) }
+    myMap.forEach { println({ "${it.value}" }) }
+    myMap.forEach({ e -> println(e.value) })
+    myMap.forEach { e -> println(e) }
 
     //Övningsuppgift 6-b
     fun changeAnimal(mutableList: MutableList<Animal>) = mutableList.iterator().forEach { e -> e.type = "frog" }
 
     //Övningsuppgift 6-c
     changeAnimal(myListOfAnimals)
-    myListOfAnimals.forEach{ println("$it") }
-    val makeSpider = {animal: Animal -> if (animal.type == "frog" && animal.numOfLegs > 2) animal.type = "spider"}
-    val removeFrog = {animal: Animal ->  animal.type != "frog" }
+    myListOfAnimals.forEach { println("$it") }
+    val makeSpider = { animal: Animal -> if (animal.type == "frog" && animal.numOfLegs > 2) animal.type = "spider" }
+    val removeFrog = { animal: Animal -> animal.type != "frog" }
     myListOfAnimals.forEach(makeSpider)
-    myListOfAnimals.filter(removeFrog).forEach{ println("$it") }
+    myListOfAnimals.filter(removeFrog).forEach { println("$it") }
 
     //Övningsuppgift 6-d
-    val findCat = {animal: Animal -> if (animal.type == "cat") println("cat is here") else println("cat is not here")}
-    val findSpider = {animal: Animal -> if (animal.type == "spider") println("spider is here") else println("spider is not here")}
+    val findCat = { animal: Animal -> if (animal.type == "cat") println("cat is here") else println("cat is not here") }
+    val findSpider =
+        { animal: Animal -> if (animal.type == "spider") println("spider is here") else println("spider is not here") }
     myListOfAnimals.forEach(findCat)
     myListOfAnimals.forEach(findSpider)
 
     //Övningsuppgift 6-e
-    fun getLegs(animal: Animal) : Int = animal.numOfLegs
+    val mostLegs = myListOfAnimals.maxOf { e -> e.numOfLegs }
+    println("most legs : $mostLegs")
 
+    //Övningsuppgift 6-f
+    val summedLegs = myListOfAnimals.sumOf { e -> e.numOfLegs }
+    println("all legs: $summedLegs")
+
+    //Övningsuppgift 6-g
+    println("my list of animals: $myListOfAnimals")
+    val spoderman = Animal("spider", 4)
+    myListOfAnimals.add(spoderman)
+    val numOfInsects = myListOfAnimals.filter { e -> e.numOfLegs > 3 }
+    println("num of insects: ${numOfInsects.size}")
+
+    //Övningsuppgift 6-h
+    val doubleInsects = numOfInsects.map {e ->
+        fun newFunc(e: Animal) : List<Animal> {
+            return listOf<Animal>(e, e)
+        }
+        newFunc(e)
+    }
+    println("$doubleInsects")
+    val flattedInsects : List<Animal> = doubleInsects.flatten()
+    println("$flattedInsects")
 
 
 
